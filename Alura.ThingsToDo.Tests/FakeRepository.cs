@@ -24,6 +24,8 @@ namespace Alura.ThingsToDo.Tests
 
         public void IncluirTarefas(params Tarefa[] tarefas)
         {
+            throw new Exception("Não foi possível incluir tarefa(s)");
+
             tarefas.ToList().ForEach(t => taskList.Add(t));
         }
 
