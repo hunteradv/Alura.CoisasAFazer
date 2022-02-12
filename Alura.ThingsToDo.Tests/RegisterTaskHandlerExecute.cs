@@ -35,6 +35,48 @@ namespace Alura.ThingsToDo.Tests
             Assert.NotNull(tasks);
         }
 
+        delegate void CaptureMessageLog(LogLevel logLevel, EventId eventId, object state, Exception exception, Func<object, Exception, string> function);
+
+        [Fact]
+        public void WhenInsertTaskWithValidInformationsMustRegisterInLog()
+        {
+            //arrange
+            var expectedTaskTitle = "Usar Moq para aprofundar conhecimento de API";
+
+            var command = new CadastraTarefa(expectedTaskTitle, new Categoria("Estudos"), new DateTime(2022, 02, 03));
+
+            var mockLogger = new Mock<ILogger<CadastraTarefaHandler>>();
+
+            LogLevel capturedLevel = LogLevel.Error;
+            string capturedMessage = String.Empty;
+
+            CaptureMessageLog capture = (logLevel, eventId, state, exception, function) =>
+            {
+                capturedLevel = logLevel;
+                capturedMessage = function(state, exception);
+            };
+
+            mockLogger.Setup(l =>
+                l.Log(
+                    It.IsAny<LogLevel>(),
+                    It.IsAny<EventId>(),
+                    It.IsAny<object>(),
+                    It.IsAny<Exception>(),
+                    (Func<object, Exception, string>)It.IsAny<object>())
+                ).Callback(capture);
+
+            var mock = new Mock<IRepositorioTarefas>();
+            
+            var handler = new CadastraTarefaHandler(mock.Object, mockLogger.Object);
+
+            //act
+            handler.Execute(command);
+
+            //assert
+            Assert.Equal(LogLevel.Debug, capturedLevel);
+            Assert.Contains(expectedTaskTitle, capturedMessage);
+        }
+
         [Fact]
         public void WhenExceptionIsThrowResultIsSuccessMustBeFalse()
         {
