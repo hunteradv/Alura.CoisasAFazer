@@ -26,11 +26,11 @@ namespace Alura.ThingsToDo.Tests
             var tasks = new List<Tarefa>
             {
                 //tarefas atrasadas
-                new Tarefa(2, "Tirar lixo", houseCategory, new DateTime(2022, 02, 07), null, StatusTarefa.Criada),
-                new Tarefa(3, "Fazer o almoço", houseCategory, new DateTime(2022, 02, 06), null, StatusTarefa.Criada),
+                new Tarefa(1, "Tirar lixo", houseCategory, new DateTime(2022, 02, 07), null, StatusTarefa.Criada),
+                new Tarefa(2, "Fazer o almoço", houseCategory, new DateTime(2022, 02, 06), null, StatusTarefa.Criada),
 
                 //tarefas validas (dentro do prazo)
-                new Tarefa(4, "Concluir relatório", workCategory, new DateTime(2022, 02, 20), null, StatusTarefa.Criada)
+                new Tarefa(3, "Concluir relatório", workCategory, new DateTime(2022, 08, 30), null, StatusTarefa.Criada)
             };
 
             var options = new DbContextOptionsBuilder<DbTarefasContext>().UseInMemoryDatabase("DbTarefasContext").Options;
@@ -39,7 +39,7 @@ namespace Alura.ThingsToDo.Tests
 
             repository.IncluirTarefas(tasks.ToArray());
 
-            var command = new GerenciaPrazoDasTarefas(new DateTime(2022, 08, 02));
+            var command = new GerenciaPrazoDasTarefas(new DateTime(2022, 08, 01));
             var handler = new GerenciaPrazoDasTarefasHandler(repository);
 
             //act
@@ -47,7 +47,7 @@ namespace Alura.ThingsToDo.Tests
 
             //assert
             var tarefasEmAtraso = repository.ObtemTarefas(t => t.Status == StatusTarefa.EmAtraso);
-            Assert.Equal(3, tarefasEmAtraso.Count());
+            Assert.Equal(2, tarefasEmAtraso.Count());
            
         }
 
