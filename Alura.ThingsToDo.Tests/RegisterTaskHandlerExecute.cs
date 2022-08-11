@@ -17,7 +17,7 @@ namespace Alura.ThingsToDo.Tests
         public void RegisterTaskInDbWhenInsertTaskWithValidInformations()
         {
             //arranje
-            var command = new CadastraTarefa("Estudar .net", new Categoria("Estudos"), new DateTime(2022, 02, 03));
+            var command = new CadastraTarefa("Estudar .net", new Categoria("Estudos"), new DateTime(2023, 02, 03));
 
             var mockLogger = new Mock<ILogger<CadastraTarefaHandler>>();
 
@@ -43,7 +43,7 @@ namespace Alura.ThingsToDo.Tests
             //arrange
             var expectedTaskTitle = "Usar Moq para aprofundar conhecimento de API";
 
-            var command = new CadastraTarefa(expectedTaskTitle, new Categoria("Estudos"), new DateTime(2022, 02, 03));
+            var command = new CadastraTarefa(expectedTaskTitle, new Categoria("Estudos"), new DateTime(2023, 02, 03));
 
             var mockLogger = new Mock<ILogger<CadastraTarefaHandler>>();
 
@@ -81,7 +81,7 @@ namespace Alura.ThingsToDo.Tests
         public void WhenExceptionIsThrowResultIsSuccessMustBeFalse()
         {
             //arranje
-            var command = new CadastraTarefa("Estudar .net", new Categoria("Estudos"), new DateTime(2022, 02, 03));
+            var command = new CadastraTarefa("Estudar .net", new Categoria("Estudos"), new DateTime(2023, 02, 03));
 
             var mock = new Mock<IRepositorioTarefas>();
 
@@ -107,7 +107,7 @@ namespace Alura.ThingsToDo.Tests
             var expectedException = new Exception(expectedMessage);
 
             //arranje
-            var command = new CadastraTarefa("Estudar .net", new Categoria("Estudos"), new DateTime(2022, 02, 03));
+            var command = new CadastraTarefa("Estudar .net", new Categoria("Estudos"), new DateTime(2023, 02, 03));
 
             var mockLogger = new Mock<ILogger<CadastraTarefaHandler>>();
 

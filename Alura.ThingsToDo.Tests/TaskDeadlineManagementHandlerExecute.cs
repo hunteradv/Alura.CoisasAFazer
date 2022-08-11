@@ -19,18 +19,17 @@ namespace Alura.ThingsToDo.Tests
         public void WhenTasksAreOverdueTheyNeedToChangeTheirStatus()
         {
             //arranje
-            var buyCategory = new Categoria(1, "Compras");
-            var houseCategory = new Categoria(2, "Casa");
-            var workCategory = new Categoria(3, "Work");
+            var buyCategory = new Categoria(7, "Compras");
+            var houseCategory = new Categoria(9, "Casa");
+            var workCategory = new Categoria(33, "Work");
 
             var tasks = new List<Tarefa>
             {
                 //tarefas atrasadas
-                new Tarefa(1, "Tirar lixo", houseCategory, new DateTime(2022, 02, 07), null, StatusTarefa.Criada),
-                new Tarefa(2, "Fazer o almoço", houseCategory, new DateTime(2022, 02, 06), null, StatusTarefa.Criada),
-
-                //tarefas validas (dentro do prazo)
-                new Tarefa(3, "Concluir relatório", workCategory, new DateTime(2022, 08, 30), null, StatusTarefa.Criada)
+                new Tarefa(100, "Tirar lixo", houseCategory, new DateTime(2022, 02, 07), null, StatusTarefa.Criada),
+                new Tarefa(101, "Fazer o almoço", houseCategory, new DateTime(2022, 02, 06), null, StatusTarefa.Criada),
+                new Tarefa(102, "Estudar .NET ", workCategory, new DateTime(2022, 02, 05), null, StatusTarefa.Criada),
+                new Tarefa(103, "Comprar vassoura", buyCategory, new DateTime(2023, 08, 12), null, StatusTarefa.Criada)
             };
 
             var options = new DbContextOptionsBuilder<DbTarefasContext>().UseInMemoryDatabase("DbTarefasContext").Options;
@@ -47,8 +46,7 @@ namespace Alura.ThingsToDo.Tests
 
             //assert
             var tarefasEmAtraso = repository.ObtemTarefas(t => t.Status == StatusTarefa.EmAtraso);
-            Assert.Equal(2, tarefasEmAtraso.Count());
-           
+            Assert.Equal(3, tarefasEmAtraso.Count());           
         }
 
         [Fact]
@@ -57,14 +55,14 @@ namespace Alura.ThingsToDo.Tests
             //arrange
             var category = new Categoria("Test");
 
-            var tasks = new List<Tarefa>
+            var taskList = new List<Tarefa>
             {
-                new Tarefa(1, "Tirar lixo", category, new DateTime(2022, 02, 07), null, StatusTarefa.Criada),
-                new Tarefa(2, "Fazer o almoço", category, new DateTime(2022, 02, 06), null, StatusTarefa.Criada),
+                new Tarefa(1, "Tirar lixo", category, new DateTime(2022, 10, 07), null, StatusTarefa.Criada),
+                new Tarefa(2, "Fazer o almoço", category, new DateTime(2022, 10, 06), null, StatusTarefa.Criada),
             };
 
             var mock = new Mock<IRepositorioTarefas>();
-            mock.Setup(r => r.ObtemTarefas(It.IsAny<Func<Tarefa, bool>>())).Returns(tasks);
+            mock.Setup(r => r.ObtemTarefas(It.IsAny<Func<Tarefa, bool>>())).Returns(taskList);
 
             var repository = mock.Object;
 

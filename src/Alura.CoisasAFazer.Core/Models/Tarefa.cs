@@ -56,7 +56,7 @@ namespace Alura.CoisasAFazer.Core.Models
 
         public override string ToString()
         {
-            return $"{Id}, {Titulo}, {Categoria.Descricao}, {Prazo.ToString("dd/MM/yyyy")}";
+            return $"{Id}, {Titulo}, {Categoria.Descricao}, {Prazo:dd/MM/yyyy}";
         }
     }
 }
