@@ -65,6 +65,18 @@ namespace Alura.ThingsToDo.Tests
                     (Func<object, Exception, string>)It.IsAny<object>())
                 ).Callback(capture);
 
+
+            mockLogger.Setup(l =>
+                l.Log(
+                    It.IsAny<LogLevel>(),
+                    It.IsAny<EventId>(),
+                    It.IsAny<object>(),
+                    It.IsAny<Exception>(),
+                    (Func<object, Exception, string>)It.IsAny<object>())
+                ).Callback((LogLevel logLevel, EventId eventId, object state, Exception exception, Func<object, Exception, string> function) => {
+                    
+                });
+
             var mock = new Mock<IRepositorioTarefas>();
             
             var handler = new CadastraTarefaHandler(mock.Object, mockLogger.Object);
